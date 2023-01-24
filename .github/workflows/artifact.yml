@@ -18,7 +18,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: my-artifact-name
-        path: artifact.txt
+        path: /home/runner/work/test-1/test-1/artifacts
     - name: Listing dir    
       run: |
         ls -lrt
