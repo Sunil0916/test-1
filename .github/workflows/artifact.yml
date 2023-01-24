@@ -24,6 +24,7 @@ jobs:
         ls -lrt
         pwd
         cd artifacts
+        pwd
     - name: Set output variables
       run: |
         echo ::set-output name=artifact_name::my-artifact-name
