@@ -1,0 +1,42 @@
+name: Download and Save Artifact Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Build artifact
+      run: |
+        echo "Hello World" > artifact.txt
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact-name
+        path: artifact.txt
+    - name: Set output variables
+      run: |
+        echo ::set-output name=artifact_name::my-artifact-name
+        echo ::set-output name=run_id::${{ steps.upload_artifact.outputs.run_id }}
+  download-and-save:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Download artifact
+      uses: actions/download-artifact@v3.0.2
+      with:
+        name: ${{ steps.build.outputs.artifact_name }}
+        run_id: ${{ steps.build.outputs.run_id }}
+    - name: Create artifact directory
+      run: |
+        mkdir -p artifacts
+    - name: Save artifact to repository code
+      run: |
+        mv ${{ steps.download_artifact.outputs.artifact_name }} artifacts/
