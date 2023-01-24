@@ -39,4 +39,5 @@ jobs:
         mkdir -p artifacts
     - name: Save artifact to repository code
       run: |
-        mv ${{ steps.download_artifact.outputs.artifact_name }} /Sunil0916/test-1/artifacts
+        #mv ${{ steps.download_artifact.outputs.artifact_name }} /Sunil0916/test-1/artifacts
+        mv my-artifact-name /Sunil0916/test-1/artifacts
