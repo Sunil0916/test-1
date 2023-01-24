@@ -19,6 +19,7 @@ jobs:
       with:
         name: my-artifact-name
         path: artifact.txt
+        run: ls -lrt
     - name: Set output variables
       run: |
         echo ::set-output name=artifact_name::my-artifact-name
