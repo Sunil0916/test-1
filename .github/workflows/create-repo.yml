@@ -1,0 +1,33 @@
+name: Create GitHub Repository
+on:
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: 'Repository name'
+        required: true
+      repo_description:
+        description: 'Repository description'
+        required: false
+      private_repo:
+        description: 'Private repository'
+        required: false
+        default: 'false'
+
+jobs:
+  create_repository:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Create New Repository
+        run: |
+          curl -u "${{ secrets.GITHUB_TOKEN }}:" \
+          --data "{\"name\":\"${{ github.event.inputs.repo_name }}\", \"description\":\"${{ github.event.inputs.repo_description }}\", \"private\":${{ github.event.inputs.private_repo }}, \"auto_init\": true}" \
+          https://api.github.com/user/repos
